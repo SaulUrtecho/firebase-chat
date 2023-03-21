@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
-import 'package:todo_firestore/firebase/firebase_auth_repository.dart';
-import 'package:todo_firestore/firebase/firestore/firebase_storage_repository.dart';
+import 'package:todo_firestore/data/firebase/firebase_auth_repository.dart';
+import 'package:todo_firestore/data/firebase/firestore/firebase_storage_repository.dart';
 import 'package:todo_firestore/presentation/screens/sign_in/use_cases/sign_in_use_case.dart';
 import 'package:todo_firestore/presentation/screens/sign_in/view_models/sign_in_bloc.dart';
 import 'package:todo_firestore/presentation/screens/sign_up/use_cases/sign_up_use_case.dart';

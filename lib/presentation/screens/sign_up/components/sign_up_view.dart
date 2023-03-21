@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_firestore/application/themes/style.dart';
+import 'package:todo_firestore/presentation/themes/style.dart';
 import 'package:todo_firestore/presentation/architecture/page_state.dart';
 import 'package:todo_firestore/presentation/screens/sign_up/view_models/sign_up_bloc.dart';
 import 'package:todo_firestore/presentation/widgets/widgets.dart';

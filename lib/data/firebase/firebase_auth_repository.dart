@@ -1,7 +1,7 @@
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../presentation/architecture/failures.dart';
+import '../../presentation/architecture/failures.dart';
 
 /// This is the Auth repository implementation
 /// This repository has a dependency from FirebaseAuth

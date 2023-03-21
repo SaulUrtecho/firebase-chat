@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_firestore/application/themes/constants.dart';
+import 'package:todo_firestore/presentation/themes/constants.dart';
 
 class ChatApp extends StatefulWidget {
   ChatApp({Key? key}) : super(key: key);
