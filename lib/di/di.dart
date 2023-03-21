@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo_firestore/data/firebase/firebase_auth_repository.dart';
 import 'package:todo_firestore/data/firebase/firestore/firebase_storage_repository.dart';
+import 'package:todo_firestore/presentation/screens/chat/use_cases/send_message_use_case.dart';
 import 'package:todo_firestore/presentation/screens/sign_in/use_cases/sign_in_use_case.dart';
 import 'package:todo_firestore/presentation/screens/sign_in/view_models/sign_in_bloc.dart';
 import 'package:todo_firestore/presentation/screens/sign_up/use_cases/sign_up_use_case.dart';
@@ -22,6 +23,7 @@ Future<void> setupDependencies() async {
   // Use cases
   getIt.registerFactory<SignUpUseCase>(() => SignUpUseCase(getIt<FirebaseAuthRepository>()));
   getIt.registerFactory<SignInUseCase>(() => SignInUseCase(getIt<FirebaseAuthRepository>()));
+  getIt.registerFactory<SendMessageUseCase>(() => SendMessageUseCase(getIt<FirebaseStorageRepository>()));
 
   // Blocs
   getIt.registerFactory<SignUpBloc>(() => SignUpBloc(getIt<SignUpUseCase>()));
