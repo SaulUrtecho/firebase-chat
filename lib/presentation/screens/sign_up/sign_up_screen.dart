@@ -13,7 +13,7 @@ class SignUpScreen extends StatelessWidget {
       create: (_) => GetIt.I.get<SignUpBloc>(),
       child: BlocListener<SignUpBloc, SignUpState>(
         listenWhen: (previous, current) => previous.isUserCreated != current.isUserCreated,
-        listener: (context, _) => Navigator.pushNamed(context, 'chat'),
+        listener: (context, _) => Navigator.pushReplacementNamed(context, 'chat'),
         child: const SignUpView(),
       ),
     );

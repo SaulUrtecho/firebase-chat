@@ -35,7 +35,14 @@ class FirebaseAuthRepository {
     }
   }
 
-  Future<void> signOut() async => _auth.signOut();
+  Future<Either<ServerFailure, void>> signOut() async {
+    try {
+      await _auth.signOut();
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+  }
 
   User? get currentUser => _auth.currentUser;
 }

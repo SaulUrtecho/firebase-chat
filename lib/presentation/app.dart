@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_firestore/presentation/pages/chart.dart';
+import 'package:todo_firestore/presentation/screens/chat/chat_screen.dart';
 import 'package:todo_firestore/presentation/screens/sign_in/sign_in_screen.dart';
 import 'package:todo_firestore/presentation/screens/sign_up/sign_up_screen.dart';
 import 'package:todo_firestore/presentation/screens/welcome/welcome_screen.dart';
@@ -15,9 +15,9 @@ class App extends StatelessWidget {
         'welcome': (context) => const WelcomeScreen(),
         'sign_in': (context) => const SignInScreen(),
         'sign_up': (context) => const SignUpScreen(),
-        ChatApp.id: (context) => ChatApp(),
+        'chat': (context) => const ChatScreen(),
       },
-      home: const SignUpScreen(),
+      home: const WelcomeScreen(),
     );
   }
 }

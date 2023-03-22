@@ -13,7 +13,7 @@ class SignInScreen extends StatelessWidget {
       create: (_) => GetIt.I.get<SignInBloc>(),
       child: BlocListener<SignInBloc, SignInState>(
         listenWhen: (previous, current) => previous.isUserCreated != current.isUserCreated,
-        listener: (context, _) => Navigator.pushNamed(context, 'chat'),
+        listener: (context, _) => Navigator.pushReplacementNamed(context, 'chat'),
         child: const SignInView(),
       ),
     );

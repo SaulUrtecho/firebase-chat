@@ -12,8 +12,12 @@ class FirebaseStorageRepository {
 
   FirebaseStorageRepository(this._store);
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> watchMessages() {
-    return _store.collection(messagesCollection).orderBy(orderByCreated, descending: true).snapshots();
+  Stream<List<MessageModel>> watchMessages() {
+    return _store
+        .collection(messagesCollection)
+        .orderBy(orderByCreated, descending: true)
+        .snapshots()
+        .map((querySnapshot) => querySnapshot.docs.map((e) => e.data()).map(MessageModel.fromJson).toList());
   }
 
   Future<Either<ServerFailure, void>> saveMessage(MessageModel message) async {

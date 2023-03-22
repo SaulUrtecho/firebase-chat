@@ -65,7 +65,7 @@ class SignUpView extends StatelessWidget {
                       ),
                       InkWell(
                         child: const Text('Already have an account? Sign In ', textAlign: TextAlign.right),
-                        onTap: () => Navigator.pushNamed(context, 'sign_in'),
+                        onTap: () => Navigator.pushReplacementNamed(context, 'sign_in'),
                       )
                     ],
                   ),

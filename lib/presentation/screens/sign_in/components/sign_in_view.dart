@@ -52,7 +52,7 @@ class SignInView extends StatelessWidget {
                       const SizedBox(height: 8.0),
                       TextField(
                         obscureText: !state.isPasswordVisible,
-                        onChanged: (value) => context.read<SignInBloc>().add(OnEmailChanged(value)),
+                        onChanged: (value) => context.read<SignInBloc>().add(OnPasswordChanged(value)),
                         decoration: kTextFieldDecoration.copyWith(
                           hintText: 'Enter your password.',
                           suffixIcon: IconButton(
@@ -75,7 +75,7 @@ class SignInView extends StatelessWidget {
                         children: [
                           InkWell(onTap: () {}, child: const Text('Forget Your password ', textAlign: TextAlign.left)),
                           InkWell(
-                            onTap: () => Navigator.pushNamed(context, 'sign_up'),
+                            onTap: () => Navigator.pushReplacementNamed(context, 'sign_up'),
                             child: const Text('Sign Up ', textAlign: TextAlign.right),
                           ),
                         ],
