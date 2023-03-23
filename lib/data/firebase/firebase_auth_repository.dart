@@ -1,5 +1,6 @@
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:todo_firestore/data/firebase/models/user_model.dart';
 
 import '../../presentation/architecture/failures.dart';
 
@@ -11,13 +12,14 @@ class FirebaseAuthRepository {
 
   FirebaseAuthRepository(this._auth);
 
-  Future<Either<Failure, UserCredential>> createUserWithEmailAndPassword({
+  Future<Either<Failure, UserModel>> createUserWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
     try {
       final result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-      return Right(result);
+
+      return Right(UserModel.fromUserCredential(result));
     } catch (e) {
       return Left(ServerFailure());
     }

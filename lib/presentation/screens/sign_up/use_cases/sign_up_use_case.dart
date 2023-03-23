@@ -1,16 +1,16 @@
 import 'package:either_dart/either.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todo_firestore/data/firebase/firebase_auth_repository.dart';
+import 'package:todo_firestore/data/firebase/models/user_model.dart';
 import 'package:todo_firestore/presentation/architecture/failures.dart';
 import 'package:todo_firestore/presentation/architecture/use_cases.dart';
 
-class SignUpUseCase implements InputUseCase<UserCredential, SignUpInput> {
+class SignUpUseCase implements InputUseCase<UserModel, SignUpInput> {
   final FirebaseAuthRepository _firebaseAuthRepository;
 
   SignUpUseCase(this._firebaseAuthRepository);
 
   @override
-  Future<Either<Failure, UserCredential>> run(SignUpInput input) async {
+  Future<Either<Failure, UserModel>> run(SignUpInput input) async {
     return _firebaseAuthRepository.createUserWithEmailAndPassword(email: input.email, password: input.password);
   }
 }
