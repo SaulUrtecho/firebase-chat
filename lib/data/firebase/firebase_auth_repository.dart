@@ -18,7 +18,6 @@ class FirebaseAuthRepository {
   }) async {
     try {
       final result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-
       return Right(UserModel.fromUserCredential(result));
     } catch (e) {
       return Left(ServerFailure());

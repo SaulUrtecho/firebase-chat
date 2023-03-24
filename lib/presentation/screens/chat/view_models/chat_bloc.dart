@@ -28,6 +28,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         _firebaseStorageRepository.watchMessages().listen((messages) => add(OnMessagesUpdated(messages)));
     on<OnMessagesUpdated>((event, emit) => emit(state.copyWith(messages: event.messages)));
     on<OnSignOut>(_onSignOut);
+    on<OnSendMessagePressed>(_onSendMessagePressed);
+  }
+
+  @override
+  Future<void> close() async {
+    await _messagesListener.cancel();
+    return super.close();
   }
 
   Future<void> _onSignOut(OnSignOut event, Emitter<ChatState> emit) async {
@@ -39,9 +46,17 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     }
   }
 
-  @override
-  Future<void> close() async {
-    await _messagesListener.cancel();
-    return super.close();
+  Future<void> _onSendMessagePressed(OnSendMessagePressed event, Emitter<ChatState> emit) async {
+    emit(state.copyWith(isSending: true));
+    await Future.delayed(const Duration(seconds: 2));
+    final result = await _sendMessageUseCase.run(MessageModel(
+      message: event.text,
+      sender: _firebaseAuthRepository.currentUser?.email ?? '',
+    ));
+    if (result.isRight) {
+      emit(state.copyWith(isSending: false));
+    } else {
+      emit(state.copyWith(pageState: PageState.failure, isSending: false));
+    }
   }
 }

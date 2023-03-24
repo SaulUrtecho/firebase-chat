@@ -33,42 +33,57 @@ class _ChatViewState extends State<ChatView> {
           ],
           title: const Text('⚡️Chat'),
           backgroundColor: Colors.lightBlueAccent),
-      body: SafeArea(child: BlocBuilder<ChatBloc, ChatState>(builder: (context, state) {
-        return state.messages.isEmpty
-            ? const Center(child: CircularProgressIndicator())
-            : Column(children: [
-                Expanded(
-                  child: ListView(
-                    reverse: true,
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                    children: state.messages
-                        .map((e) => MessageBubble(sender: e.sender, text: e.message, isLoggedIn: false))
-                        .toList(),
-                  ),
-                ),
-                Container(
-                  decoration: kMessageContainerDecoration,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+      body: SafeArea(
+        child: BlocBuilder<ChatBloc, ChatState>(
+          builder: (context, state) {
+            return state.messages.isEmpty
+                ? const Center(child: CircularProgressIndicator())
+                : Column(
                     children: [
                       Expanded(
-                        child: TextField(
-                          controller: _messageTextController,
-                          decoration: kMessageTextFieldDecoration,
+                        child: ListView(
+                          reverse: true,
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                          children: state.messages
+                              .map((e) => MessageBubble(sender: e.sender, text: e.message, isLoggedIn: false))
+                              .toList(),
                         ),
                       ),
-                      TextButton(
-                        onPressed: () async {
-                          _messageTextController.clear();
-                          // todo:
-                        },
-                        child: const Text('Send', style: kSendButtonTextStyle),
-                      ),
+                      Container(
+                        decoration: kMessageContainerDecoration,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                controller: _messageTextController,
+                                decoration: kMessageTextFieldDecoration,
+                              ),
+                            ),
+                            BlocBuilder<ChatBloc, ChatState>(
+                              buildWhen: (previous, current) => previous.isSending != current.isSending,
+                              builder: (context, state) {
+                                return TextButton(
+                                  onPressed: state.isSending
+                                      ? null
+                                      : () async {
+                                          context
+                                              .read<ChatBloc>()
+                                              .add(OnSendMessagePressed(_messageTextController.text));
+                                          _messageTextController.clear();
+                                        },
+                                  child: const Text('Send', style: kSendButtonTextStyle),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      )
                     ],
-                  ),
-                )
-              ]);
-      })),
+                  );
+          },
+        ),
+      ),
     );
   }
 }
