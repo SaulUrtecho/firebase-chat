@@ -25,6 +25,15 @@ class OnSendMessagePressed extends ChatEvent {
   String toString() => 'OnSendMessagePressed';
 }
 
+class OnDeleteMessagePressed extends ChatEvent {
+  final String messageId;
+
+  const OnDeleteMessagePressed(this.messageId);
+
+  @override
+  String toString() => 'OnDeleteMessagePressed';
+}
+
 class OnSignOut extends ChatEvent {
   const OnSignOut();
 

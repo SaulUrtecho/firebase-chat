@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo_firestore/data/firebase/firebase_auth_repository.dart';
 import 'package:todo_firestore/data/firebase/firestore/firebase_storage_repository.dart';
+import 'package:todo_firestore/presentation/screens/chat/use_cases/delete_message_use_case.dart';
 import 'package:todo_firestore/presentation/screens/chat/use_cases/send_message_use_case.dart';
 import 'package:todo_firestore/presentation/screens/chat/use_cases/sign_out_use_case.dart';
 import 'package:todo_firestore/presentation/screens/chat/view_models/chat_bloc.dart';
@@ -27,14 +28,18 @@ Future<void> setupDependencies() async {
   getIt.registerFactory<SignInUseCase>(() => SignInUseCase(getIt<FirebaseAuthRepository>()));
   getIt.registerFactory<SendMessageUseCase>(() => SendMessageUseCase(getIt<FirebaseStorageRepository>()));
   getIt.registerFactory<SignOutUseCase>(() => SignOutUseCase(getIt<FirebaseAuthRepository>()));
+  getIt.registerFactory<DeleteMessageUseCase>(() => DeleteMessageUseCase(getIt<FirebaseStorageRepository>()));
 
   // Blocs
   getIt.registerFactory<SignUpBloc>(() => SignUpBloc(getIt<SignUpUseCase>()));
   getIt.registerFactory<SignInBloc>(() => SignInBloc(getIt<SignInUseCase>()));
-  getIt.registerFactory<ChatBloc>(() => ChatBloc(
-        getIt<FirebaseAuthRepository>(),
-        getIt<SendMessageUseCase>(),
-        getIt<SignOutUseCase>(),
-        getIt<FirebaseStorageRepository>(),
-      ));
+  getIt.registerFactory<ChatBloc>(
+    () => ChatBloc(
+      getIt<FirebaseAuthRepository>(),
+      getIt<SendMessageUseCase>(),
+      getIt<SignOutUseCase>(),
+      getIt<FirebaseStorageRepository>(),
+      getIt<DeleteMessageUseCase>(),
+    ),
+  );
 }

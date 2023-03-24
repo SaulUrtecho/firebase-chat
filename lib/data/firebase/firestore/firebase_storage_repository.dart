@@ -17,15 +17,20 @@ class FirebaseStorageRepository {
         .collection(messagesCollection)
         .orderBy(orderByCreated, descending: true)
         .snapshots()
-        .map((querySnapshot) => querySnapshot.docs.map((e) => e.data()).map(MessageModel.fromJson).toList());
+        .map((querySnapshot) => querySnapshot.docs.map((e) => MessageModel.fromQueryDocument(e)).toList());
   }
 
   Future<Either<ServerFailure, void>> saveMessage(MessageModel message) async {
-    try {
-      await _store.collection(messagesCollection).doc().set(message.toJson());
-      return const Right(null);
-    } catch (e) {
-      return Left(ServerFailure());
-    }
+    return _store.collection(messagesCollection).doc().set(message.toJson()).then(
+          (doc) => const Right(null),
+          onError: (e) => Left(ServerFailure()),
+        );
+  }
+
+  Future<Either<ServerFailure, void>> deleteMessage(String messageId) async {
+    return _store.collection(messagesCollection).doc(messageId).delete().then(
+          (doc) => const Right(null),
+          onError: (e) => Left(ServerFailure()),
+        );
   }
 }

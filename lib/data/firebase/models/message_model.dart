@@ -1,18 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MessageModel {
+  final String id;
   final String message;
   final String sender;
   final Timestamp created;
 
-  MessageModel({required this.message, required this.sender, Timestamp? created})
+  MessageModel({required this.id, required this.message, required this.sender, Timestamp? created})
       : created = created ?? Timestamp.now();
 
-  factory MessageModel.fromJson(Map<String, dynamic> json) {
+  MessageModel.toSend({required this.message, required this.sender})
+      : id = '',
+        created = Timestamp.now();
+
+  factory MessageModel.fromQueryDocument(QueryDocumentSnapshot<Map<String, dynamic>> queryDoc) {
+    final data = queryDoc.data();
     return MessageModel(
-      message: json['message'],
-      sender: json['sender'],
-      created: json['created'],
+      id: queryDoc.id,
+      message: data['message'],
+      sender: data['sender'],
+      created: data['created'],
     );
   }
 
