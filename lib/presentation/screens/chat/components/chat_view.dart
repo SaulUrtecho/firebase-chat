@@ -44,9 +44,7 @@ class _ChatViewState extends State<ChatView> {
                         child: ListView(
                           reverse: true,
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                          children: state.messages
-                              .map((e) => MessageBubble(sender: e.sender, text: e.message, isLoggedIn: false))
-                              .toList(),
+                          children: state.messages.map((e) => MessageBubble(message: e, isLoggedIn: false)).toList(),
                         ),
                       ),
                       Container(
