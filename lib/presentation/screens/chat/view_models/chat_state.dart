@@ -2,21 +2,35 @@ part of 'chat_bloc.dart';
 
 class ChatState extends Equatable {
   final List<MessageModel> messages;
+  final PageCommand? pageCommand;
   final PageState pageState;
   final bool isSending;
-  final bool isLogedOut;
+  final bool isEditing;
 
-  const ChatState({required this.messages, required this.pageState, required this.isSending, required this.isLogedOut});
+  const ChatState({
+    required this.messages,
+    this.pageCommand,
+    required this.pageState,
+    required this.isSending,
+    required this.isEditing,
+  });
 
   @override
-  List<Object> get props => [messages, pageState, isSending, isLogedOut];
+  List<Object?> get props => [messages, pageCommand, pageState, isSending, isEditing];
 
-  ChatState copyWith({List<MessageModel>? messages, PageState? pageState, bool? isSending, bool? isLogedOut}) {
+  ChatState copyWith({
+    List<MessageModel>? messages,
+    PageCommand? pageCommand,
+    PageState? pageState,
+    bool? isSending,
+    bool? isEditing,
+  }) {
     return ChatState(
       messages: messages ?? this.messages,
+      pageCommand: pageCommand,
       pageState: pageState ?? this.pageState,
       isSending: isSending ?? this.isSending,
-      isLogedOut: isLogedOut ?? this.isLogedOut,
+      isEditing: isEditing ?? this.isEditing,
     );
   }
 
@@ -25,7 +39,7 @@ class ChatState extends Equatable {
       messages: [],
       pageState: PageState.initial,
       isSending: false,
-      isLogedOut: false,
+      isEditing: false,
     );
   }
 }

@@ -27,6 +27,14 @@ class FirebaseStorageRepository {
         );
   }
 
+  // todo!!!
+  Future<Either<ServerFailure, void>> editMessage(MessageModel message) async {
+    return _store.collection(messagesCollection).doc(message.id).update(message.toJson()).then(
+          (doc) => const Right(null),
+          onError: (e) => Left(ServerFailure()),
+        );
+  }
+
   Future<Either<ServerFailure, void>> deleteMessage(String messageId) async {
     return _store.collection(messagesCollection).doc(messageId).delete().then(
           (doc) => const Right(null),

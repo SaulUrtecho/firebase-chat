@@ -11,11 +11,7 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => GetIt.I.get<ChatBloc>(),
-      child: BlocListener<ChatBloc, ChatState>(
-        listenWhen: (previous, current) => previous.isLogedOut != current.isLogedOut,
-        listener: (context, _) => Navigator.of(context).pop(),
-        child: const ChatView(),
-      ),
+      child: const ChatView(),
     );
   }
 }
