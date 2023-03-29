@@ -19,10 +19,19 @@ class OnMessagesUpdated extends ChatEvent {
 class OnSendMessagePressed extends ChatEvent {
   final String text;
 
-  const OnSendMessagePressed(this.text);
+  const OnSendMessagePressed({required this.text});
 
   @override
   String toString() => 'OnSendMessagePressed';
+}
+
+class OnUpdateMessagePressed extends ChatEvent {
+  final String text;
+
+  const OnUpdateMessagePressed(this.text);
+
+  @override
+  String toString() => 'OnUpdateMessagePressed';
 }
 
 class OnDeleteMessagePressed extends ChatEvent {
@@ -35,9 +44,9 @@ class OnDeleteMessagePressed extends ChatEvent {
 }
 
 class OnEditMessagePressed extends ChatEvent {
-  final String text;
+  final MessageModel message;
 
-  const OnEditMessagePressed(this.text);
+  const OnEditMessagePressed(this.message);
 
   @override
   String toString() => 'OnEditMessagePressed';

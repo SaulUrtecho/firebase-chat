@@ -5,32 +5,32 @@ class ChatState extends Equatable {
   final PageCommand? pageCommand;
   final PageState pageState;
   final bool isSending;
-  final bool isEditing;
+  final String editMessageId;
 
   const ChatState({
     required this.messages,
     this.pageCommand,
     required this.pageState,
     required this.isSending,
-    required this.isEditing,
+    required this.editMessageId,
   });
 
   @override
-  List<Object?> get props => [messages, pageCommand, pageState, isSending, isEditing];
+  List<Object?> get props => [messages, pageCommand, pageState, isSending, editMessageId];
 
   ChatState copyWith({
     List<MessageModel>? messages,
     PageCommand? pageCommand,
     PageState? pageState,
     bool? isSending,
-    bool? isEditing,
+    String? editMessageId,
   }) {
     return ChatState(
       messages: messages ?? this.messages,
       pageCommand: pageCommand,
       pageState: pageState ?? this.pageState,
       isSending: isSending ?? this.isSending,
-      isEditing: isEditing ?? this.isEditing,
+      editMessageId: editMessageId ?? this.editMessageId,
     );
   }
 
@@ -39,7 +39,7 @@ class ChatState extends Equatable {
       messages: [],
       pageState: PageState.initial,
       isSending: false,
-      isEditing: false,
+      editMessageId: '',
     );
   }
 }

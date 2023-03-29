@@ -72,7 +72,10 @@ class _ChatViewState extends State<ChatView> {
                                 ),
                               ),
                               BlocBuilder<ChatBloc, ChatState>(
-                                buildWhen: (previous, current) => previous.isSending != current.isSending,
+                                buildWhen: (previous, current) {
+                                  return previous.isSending != current.isSending ||
+                                      previous.editMessageId != current.editMessageId;
+                                },
                                 builder: (context, state) {
                                   return TextButton(
                                     onPressed: state.isSending
@@ -80,10 +83,11 @@ class _ChatViewState extends State<ChatView> {
                                         : () async {
                                             context
                                                 .read<ChatBloc>()
-                                                .add(OnSendMessagePressed(_messageTextController.text));
+                                                .add(OnSendMessagePressed(text: _messageTextController.text));
                                             _messageTextController.clear();
                                           },
-                                    child: const Text('Send', style: kSendButtonTextStyle),
+                                    child: Text(state.editMessageId.isNotEmpty ? 'Save' : 'send',
+                                        style: kSendButtonTextStyle),
                                   );
                                 },
                               ),

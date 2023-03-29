@@ -7,7 +7,7 @@ import 'package:todo_firestore/data/firebase/models/message_model.dart';
 import 'package:todo_firestore/presentation/architecture/page_command.dart';
 import 'package:todo_firestore/presentation/architecture/page_state.dart';
 import 'package:todo_firestore/presentation/screens/chat/use_cases/delete_message_use_case.dart';
-import 'package:todo_firestore/presentation/screens/chat/use_cases/edit_message_use_case.dart';
+import 'package:todo_firestore/presentation/screens/chat/use_cases/update_message_use_case.dart';
 import 'package:todo_firestore/presentation/screens/chat/use_cases/send_message_use_case.dart';
 import 'package:todo_firestore/presentation/screens/chat/use_cases/sign_out_use_case.dart';
 import 'package:todo_firestore/presentation/screens/chat/view_models/page_commands.dart';
@@ -21,7 +21,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final SendMessageUseCase _sendMessageUseCase;
   final SignOutUseCase _signOutUseCase;
   final DeleteMessageUseCase _deleteMessageUseCase;
-  final EditMessageUseCase _editMessageUseCase;
+  final UpdateMessageUseCase _updateMessageUseCase;
   late final StreamSubscription _messagesListener;
 
   ChatBloc(
@@ -30,7 +30,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     this._signOutUseCase,
     this._firebaseStorageRepository,
     this._deleteMessageUseCase,
-    this._editMessageUseCase,
+    this._updateMessageUseCase,
   ) : super(ChatState.initial()) {
     _messagesListener =
         _firebaseStorageRepository.watchMessages().listen((messages) => add(OnMessagesUpdated(messages)));
@@ -39,7 +39,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<OnSendMessagePressed>(_onSendMessagePressed);
     on<OnDeleteMessagePressed>(_onDeleteMessagePressed);
     on<OnEditMessagePressed>(_onEditMessagePressed);
-    on<ClearChatCommand>((_, emit) => emit(state.copyWith(pageCommand: null)));
+    on<ClearChatCommand>((_, emit) => emit(state.copyWith()));
   }
 
   @override
@@ -49,7 +49,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   void _onEditMessagePressed(OnEditMessagePressed event, Emitter<ChatState> emit) {
-    emit(state.copyWith(pageCommand: UpdateTextController(event.text), isEditing: true));
+    emit(state.copyWith(pageCommand: UpdateTextController(event.message.message), editMessageId: event.message.id));
   }
 
   Future<void> _onDeleteMessagePressed(OnDeleteMessagePressed event, Emitter<ChatState> emit) async {
@@ -69,16 +69,19 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   Future<void> _onSendMessagePressed(OnSendMessagePressed event, Emitter<ChatState> emit) async {
+    final useCase = state.editMessageId.isNotEmpty ? _updateMessageUseCase : _sendMessageUseCase;
     emit(state.copyWith(isSending: true));
-    await Future.delayed(const Duration(seconds: 2));
-    final result = await _sendMessageUseCase.run(MessageModel.toSend(
-      message: event.text,
-      sender: _firebaseAuthRepository.currentUser?.email ?? '',
-    ));
-    if (result.isRight) {
-      emit(state.copyWith(isSending: false));
+    final result = await useCase.run(
+      MessageModel(
+        id: state.editMessageId,
+        message: event.text,
+        sender: _firebaseAuthRepository.currentUser?.email ?? '',
+      ),
+    );
+    if (result!.isRight) {
+      emit(state.copyWith(isSending: false, editMessageId: null));
     } else {
-      emit(state.copyWith(pageState: PageState.failure, isSending: false));
+      emit(state.copyWith(pageState: PageState.failure, isSending: false, editMessageId: null));
     }
   }
 }

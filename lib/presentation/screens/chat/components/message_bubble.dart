@@ -20,7 +20,7 @@ class MessageBubble extends StatelessWidget {
           builder: (_) {
             return MessageOptions(
               onDeletePressed: () => context.read<ChatBloc>().add(OnDeleteMessagePressed(message.id)),
-              onEditPressed: () => context.read<ChatBloc>().add(OnEditMessagePressed(message.message)),
+              onEditPressed: () => context.read<ChatBloc>().add(OnEditMessagePressed(message)),
             );
           },
         );

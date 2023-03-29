@@ -28,7 +28,7 @@ class FirebaseStorageRepository {
   }
 
   // todo!!!
-  Future<Either<ServerFailure, void>> editMessage(MessageModel message) async {
+  Future<Either<ServerFailure, void>> updateMessage(MessageModel message) async {
     return _store.collection(messagesCollection).doc(message.id).update(message.toJson()).then(
           (doc) => const Right(null),
           onError: (e) => Left(ServerFailure()),

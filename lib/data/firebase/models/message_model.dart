@@ -9,10 +9,6 @@ class MessageModel {
   MessageModel({required this.id, required this.message, required this.sender, Timestamp? created})
       : created = created ?? Timestamp.now();
 
-  MessageModel.toSend({required this.message, required this.sender})
-      : id = '',
-        created = Timestamp.now();
-
   factory MessageModel.fromQueryDocument(QueryDocumentSnapshot<Map<String, dynamic>> queryDoc) {
     final data = queryDoc.data();
     return MessageModel(
