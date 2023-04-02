@@ -12,4 +12,11 @@ class UserModel {
       uid: userCredential.user?.uid ?? '',
     );
   }
+
+  factory UserModel.fromCurrentUser(User currentUser) {
+    return UserModel(
+      email: currentUser.email ?? '',
+      uid: currentUser.uid,
+    );
+  }
 }

@@ -45,5 +45,5 @@ class FirebaseAuthRepository {
     }
   }
 
-  User? get currentUser => _auth.currentUser;
+  UserModel? get currentUser => _auth.currentUser != null ? UserModel.fromCurrentUser(_auth.currentUser!) : null;
 }

@@ -5,18 +5,18 @@ class SignInState extends Equatable {
   final String password;
   final PageState pageState;
   final bool isPasswordVisible;
-  final bool isUserCreated;
+  final bool isUserValid;
 
   const SignInState({
     required this.email,
     required this.password,
     required this.pageState,
     required this.isPasswordVisible,
-    required this.isUserCreated,
+    required this.isUserValid,
   });
 
   @override
-  List<Object> get props => [email, password, pageState, isPasswordVisible, isUserCreated];
+  List<Object> get props => [email, password, pageState, isPasswordVisible, isUserValid];
 
   bool get isSubmitEnabled => email.isNotEmpty && password.isNotEmpty;
 
@@ -25,14 +25,14 @@ class SignInState extends Equatable {
     String? password,
     PageState? pageState,
     bool? isPasswordVisible,
-    bool? isUserCreated,
+    bool? isUserValid,
   }) {
     return SignInState(
       email: email ?? this.email,
       password: password ?? this.password,
       pageState: pageState ?? this.pageState,
       isPasswordVisible: isPasswordVisible ?? this.isPasswordVisible,
-      isUserCreated: isUserCreated ?? this.isUserCreated,
+      isUserValid: isUserValid ?? this.isUserValid,
     );
   }
 
@@ -42,7 +42,7 @@ class SignInState extends Equatable {
       password: '',
       pageState: PageState.initial,
       isPasswordVisible: false,
-      isUserCreated: false,
+      isUserValid: false,
     );
   }
 }

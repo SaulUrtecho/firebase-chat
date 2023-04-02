@@ -24,7 +24,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     emit(state.copyWith(pageState: PageState.loading));
     final result = await _signInUseCase.run(SignInInput(state.email, state.password));
     if (result.isRight) {
-      emit(state.copyWith(isUserCreated: true));
+      emit(state.copyWith(isUserValid: true));
     } else {
       emit(state.copyWith(pageState: PageState.failure));
     }

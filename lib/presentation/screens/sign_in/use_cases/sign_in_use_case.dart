@@ -15,7 +15,7 @@ class SignInUseCase implements InputUseCase<UserCredential, SignInInput> {
   }
 }
 
-/// we create a object because we need to use an email and a password
+/// we create a DTO(Data Transfer Object) because we need to use an email and a password
 /// this object will be passed like parameter in the above function
 class SignInInput {
   final String email;

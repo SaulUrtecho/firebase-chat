@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_firestore/presentation/blocs/authentication/authentication_bloc.dart';
 import 'package:todo_firestore/presentation/screens/chat/components/message_bubble.dart';
 import 'package:todo_firestore/presentation/screens/chat/view_models/chat_bloc.dart';
 import 'package:todo_firestore/presentation/screens/chat/view_models/page_commands.dart';
@@ -28,7 +29,7 @@ class _ChatViewState extends State<ChatView> {
       listener: (context, state) {
         final command = state.pageCommand;
         if (command is UserLogOut) {
-          Navigator.of(context).pop();
+          context.read<AuthenticationBloc>().add(const OnLogOut());
         }
         if (command is UpdateTextController) {
           _messageTextController.text = command.text;
