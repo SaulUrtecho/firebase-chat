@@ -4,6 +4,7 @@ import 'package:todo_firestore/presentation/blocs/authentication/authentication_
 import 'package:todo_firestore/presentation/screens/chat/components/message_bubble.dart';
 import 'package:todo_firestore/presentation/screens/chat/view_models/chat_bloc.dart';
 import 'package:todo_firestore/presentation/screens/chat/view_models/page_commands.dart';
+import 'package:todo_firestore/presentation/screens/drawer/drawer.dart';
 import 'package:todo_firestore/presentation/themes/constants.dart';
 
 class ChatView extends StatefulWidget {
@@ -37,16 +38,8 @@ class _ChatViewState extends State<ChatView> {
         context.read<ChatBloc>().add(const ClearChatCommand());
       },
       child: Scaffold(
-        appBar: AppBar(
-            automaticallyImplyLeading: false,
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: () => context.read<ChatBloc>().add(const OnSignOut()),
-              ),
-            ],
-            title: const Text('⚡️Chat'),
-            backgroundColor: Colors.lightBlueAccent),
+        appBar: AppBar(title: const Text('⚡️Chat'), backgroundColor: Colors.lightBlueAccent),
+        drawer: const AppDrawer(),
         body: SafeArea(
           child: BlocBuilder<ChatBloc, ChatState>(
             builder: (context, state) {

@@ -9,6 +9,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // we created a navigatorKey for access to Navigator stack
+    // without needing a reference to the BuildContext
     final navigatorKey = GlobalKey<NavigatorState>();
     return BlocProvider(
       create: (_) => GetIt.I.get<AuthenticationBloc>()..add(const OnAppStartUp()),

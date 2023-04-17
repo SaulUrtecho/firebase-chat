@@ -2,15 +2,23 @@ part of 'authentication_bloc.dart';
 
 class AuthenticationState extends Equatable {
   final AuthStatus authStatus;
-  const AuthenticationState({required this.authStatus});
+  final UserModel? user;
+
+  const AuthenticationState({required this.authStatus, this.user});
 
   @override
-  List<Object> get props => [authStatus];
+  List<Object?> get props => [authStatus, user];
 
-  AuthenticationState copyWith({AuthStatus? authStatus}) {
-    return AuthenticationState(authStatus: authStatus ?? this.authStatus);
+  AuthenticationState copyWith({AuthStatus? authStatus, UserModel? user}) {
+    return AuthenticationState(
+      authStatus: authStatus ?? this.authStatus,
+      user: user ?? this.user,
+    );
   }
 
+  factory AuthenticationState.logOut() {
+    return const AuthenticationState(authStatus: AuthStatus.loggedOut);
+  }
   factory AuthenticationState.initial() {
     return const AuthenticationState(authStatus: AuthStatus.initial);
   }

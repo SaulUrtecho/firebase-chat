@@ -5,10 +5,10 @@ import 'package:todo_firestore/presentation/architecture/failures.dart';
 
 // This use case receive an input
 abstract class InputUseCase<Out, Input> {
-  Future<Either<Failure, Out>?> run(Input input);
+  Future<Either<Failure, Out>> run(Input input);
 }
 
 // This use case don't receive any parameter
 abstract class NoInputUseCase<Out> {
-  Future<Either<Failure, Out>?> run();
+  Future<Either<Failure, Out>> run();
 }

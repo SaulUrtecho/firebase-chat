@@ -78,7 +78,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         sender: _firebaseAuthRepository.currentUser?.email ?? '',
       ),
     );
-    if (result!.isRight) {
+    if (result.isRight) {
       emit(state.copyWith(isSending: false, editMessageId: null));
     } else {
       emit(state.copyWith(pageState: PageState.failure, isSending: false, editMessageId: null));
