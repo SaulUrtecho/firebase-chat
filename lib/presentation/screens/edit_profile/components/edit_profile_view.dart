@@ -1,4 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_firestore/presentation/screens/edit_profile/components/image_options_dialog.dart';
+import 'package:todo_firestore/presentation/screens/edit_profile/view_models/bloc/edit_profile_bloc.dart';
 
 class EditProfileView extends StatelessWidget {
   const EditProfileView({super.key});
@@ -19,9 +24,36 @@ class EditProfileView extends StatelessWidget {
               child: GestureDetector(
                 child: Stack(
                   alignment: Alignment.topRight,
-                  children: [const CircleAvatar(radius: 45), CircleAvatar(child: Icon(Icons.edit), radius: 15)],
+                  children: [
+                    BlocBuilder<EditProfileBloc, EditProfileState>(
+                      builder: (context, state) {
+                        return CircleAvatar(
+                          backgroundImage: state.avatarFile != null ? FileImage(File(state.avatarFile!.path)) : null,
+                          radius: 55,
+                          backgroundColor: Colors.blueGrey,
+                          child: state.avatarFile != null ? null : const Icon(Icons.person, size: 72),
+                        );
+                      },
+                    ),
+                    const CircleAvatar(
+                      radius: 15,
+                      child: Icon(Icons.edit),
+                    )
+                  ],
                 ),
-                onTap: () {},
+                onTap: () async {
+                  await showDialog(
+                    context: context,
+                    builder: (_) {
+                      return const ImageOptionsDialog();
+                    },
+                  ).then((value) {
+                    if (value != null) {
+                      // ignore: use_build_context_synchronously
+                      context.read<EditProfileBloc>().add(OnImageSourceSelected(value!));
+                    }
+                  });
+                },
               ),
             ),
             const Text('data'),

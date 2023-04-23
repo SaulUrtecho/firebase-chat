@@ -1,6 +1,7 @@
 // Collections
 
-const messagesCollection = 'message';
+const messagesCollection = 'messages';
+const usersCollection = 'users';
 
 // Actions
 const orderByCreated = 'created';

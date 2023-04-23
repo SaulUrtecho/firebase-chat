@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_firestore/data/firebase/firebase_auth_repository.dart';
+import 'package:todo_firestore/data/firebase/auth/firebase_auth_repository.dart';
 import 'package:todo_firestore/data/firebase/models/user_model.dart';
 
 part 'authentication_event.dart';

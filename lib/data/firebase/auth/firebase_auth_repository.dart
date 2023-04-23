@@ -2,7 +2,7 @@ import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todo_firestore/data/firebase/models/user_model.dart';
 
-import '../../presentation/architecture/failures.dart';
+import '../../../presentation/architecture/failures.dart';
 
 /// This is the Auth repository implementation
 /// This repository has a dependency from FirebaseAuth
@@ -18,7 +18,7 @@ class FirebaseAuthRepository {
   }) async {
     try {
       final result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-      return Right(UserModel.fromUserCredential(result));
+      return Right(UserModel.fromFirebaseUserCredential(result));
     } catch (e) {
       return Left(ServerFailure());
     }
@@ -45,5 +45,6 @@ class FirebaseAuthRepository {
     }
   }
 
-  UserModel? get currentUser => _auth.currentUser != null ? UserModel.fromCurrentUser(_auth.currentUser!) : null;
+  UserModel? get currentUser => _auth.currentUser != null ? UserModel.fromFirebaseUser(_auth.currentUser!) : null;
+  String? get userUid => _auth.currentUser?.uid;
 }

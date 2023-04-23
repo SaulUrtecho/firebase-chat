@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_firestore/data/firebase/firebase_auth_repository.dart';
-import 'package:todo_firestore/data/firebase/firestore/firebase_storage_repository.dart';
+import 'package:todo_firestore/data/firebase/auth/firebase_auth_repository.dart';
+import 'package:todo_firestore/data/firebase/firestore/firebase_firestore_repository.dart';
 import 'package:todo_firestore/data/firebase/models/message_model.dart';
 import 'package:todo_firestore/presentation/architecture/page_command.dart';
 import 'package:todo_firestore/presentation/architecture/page_state.dart';
@@ -17,7 +17,7 @@ part 'chat_state.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final FirebaseAuthRepository _firebaseAuthRepository;
-  final FirebaseStorageRepository _firebaseStorageRepository;
+  final FirebaseFirestoreRepository _firebaseFirestoreRepository;
   final SendMessageUseCase _sendMessageUseCase;
   final SignOutUseCase _signOutUseCase;
   final DeleteMessageUseCase _deleteMessageUseCase;
@@ -28,12 +28,12 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     this._firebaseAuthRepository,
     this._sendMessageUseCase,
     this._signOutUseCase,
-    this._firebaseStorageRepository,
+    this._firebaseFirestoreRepository,
     this._deleteMessageUseCase,
     this._updateMessageUseCase,
   ) : super(ChatState.initial()) {
     _messagesListener =
-        _firebaseStorageRepository.watchMessages().listen((messages) => add(OnMessagesUpdated(messages)));
+        _firebaseFirestoreRepository.watchMessages().listen((messages) => add(OnMessagesUpdated(messages)));
     on<OnMessagesUpdated>((event, emit) => emit(state.copyWith(messages: event.messages)));
     on<OnSignOut>(_onSignOut);
     on<OnSendMessagePressed>(_onSendMessagePressed);
