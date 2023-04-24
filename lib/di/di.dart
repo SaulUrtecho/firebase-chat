@@ -7,6 +7,7 @@ import 'package:todo_firestore/data/firebase/firestore/firebase_firestore_reposi
 import 'package:todo_firestore/data/firebase/storage/storage_repository.dart';
 import 'package:todo_firestore/data/managers/picker_image_manager.dart';
 import 'package:todo_firestore/presentation/blocs/authentication/authentication_bloc.dart';
+import 'package:todo_firestore/presentation/blocs/authentication/use_cases/get_current_user_use_case.dart';
 import 'package:todo_firestore/presentation/screens/chat/use_cases/delete_message_use_case.dart';
 import 'package:todo_firestore/presentation/screens/chat/use_cases/update_message_use_case.dart';
 import 'package:todo_firestore/presentation/screens/chat/use_cases/send_message_use_case.dart';
@@ -46,9 +47,11 @@ Future<void> setupDependencies() async {
   getIt.registerFactory<UpdateMessageUseCase>(() => UpdateMessageUseCase(getIt<FirebaseFirestoreRepository>()));
   getIt.registerFactory<UploadFileUseCase>(() => UploadFileUseCase(getIt<StorageRepository>()));
   getIt.registerFactory<CreateUserUseCase>(() => CreateUserUseCase(getIt<FirebaseFirestoreRepository>()));
+  getIt.registerFactory<GetCurrentUserUseCase>(() => GetCurrentUserUseCase(getIt<FirebaseFirestoreRepository>()));
 
   // Blocs
-  getIt.registerFactory<AuthenticationBloc>(() => AuthenticationBloc(getIt<FirebaseAuthRepository>()));
+  getIt.registerFactory<AuthenticationBloc>(
+      () => AuthenticationBloc(getIt<FirebaseAuthRepository>(), getIt<GetCurrentUserUseCase>()));
   getIt.registerFactory<SignUpBloc>(() => SignUpBloc(getIt<SignUpUseCase>(), getIt<CreateUserUseCase>()));
   getIt.registerFactory<SignInBloc>(() => SignInBloc(getIt<SignInUseCase>()));
   getIt.registerFactory<ChatBloc>(

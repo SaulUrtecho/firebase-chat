@@ -20,6 +20,7 @@ class AppDrawer extends StatelessWidget {
             child: ListTile(
               leading: const CircleAvatar(radius: 27),
               title: Text(context.read<AuthenticationBloc>().state.user?.email ?? ''),
+              subtitle: Text(context.read<AuthenticationBloc>().state.user?.name ?? ''),
             ),
           ),
           Expanded(
