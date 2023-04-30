@@ -54,15 +54,16 @@ Future<void> setupDependencies() async {
       () => AuthenticationBloc(getIt<FirebaseAuthRepository>(), getIt<GetCurrentUserUseCase>()));
   getIt.registerFactory<SignUpBloc>(() => SignUpBloc(getIt<SignUpUseCase>(), getIt<CreateUserUseCase>()));
   getIt.registerFactory<SignInBloc>(() => SignInBloc(getIt<SignInUseCase>()));
-  getIt.registerFactory<ChatBloc>(
-    () => ChatBloc(
-      getIt<FirebaseAuthRepository>(),
-      getIt<SendMessageUseCase>(),
-      getIt<SignOutUseCase>(),
-      getIt<FirebaseFirestoreRepository>(),
-      getIt<DeleteMessageUseCase>(),
-      getIt<UpdateMessageUseCase>(),
-    ),
-  );
-  getIt.registerFactory<EditProfileBloc>(() => EditProfileBloc(getIt<PickerImageManager>()));
+  getIt.registerFactory<ChatBloc>(() => ChatBloc(
+        getIt<FirebaseAuthRepository>(),
+        getIt<SendMessageUseCase>(),
+        getIt<SignOutUseCase>(),
+        getIt<FirebaseFirestoreRepository>(),
+        getIt<DeleteMessageUseCase>(),
+        getIt<UpdateMessageUseCase>(),
+      ));
+  getIt.registerFactory<EditProfileBloc>(() => EditProfileBloc(
+        getIt<PickerImageManager>(),
+        getIt<UploadFileUseCase>(),
+      ));
 }

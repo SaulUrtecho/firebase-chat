@@ -15,3 +15,10 @@ class OnImageSourceSelected extends EditProfileEvent {
   @override
   String toString() => 'OnImageSourceSelected';
 }
+
+class OnSaveButtonPressed extends EditProfileEvent {
+  const OnSaveButtonPressed();
+
+  @override
+  String toString() => 'OnSaveButtonPressed';
+}
