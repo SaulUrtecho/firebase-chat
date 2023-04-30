@@ -15,6 +15,11 @@ class Routes {
   static const editProfile = 'edit_profile';
 }
 
+// Navigator Key
+// we created a navigatorKey for access to Navigator stack
+// without needing a reference to the BuildContext
+final navigatorKey = GlobalKey<NavigatorState>();
+
 // for android routes
 final materialRoutes = <String, Widget Function(BuildContext)>{
   Routes.welcome: (context) => const WelcomeScreen(),

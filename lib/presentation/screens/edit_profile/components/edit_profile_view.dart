@@ -59,10 +59,9 @@ class EditProfileView extends StatelessWidget {
             const Text('data'),
             const SizedBox(height: 20),
             ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('back'))
+              onPressed: () {},
+              child: const Text('save picture'),
+            )
           ],
         ),
       ),
