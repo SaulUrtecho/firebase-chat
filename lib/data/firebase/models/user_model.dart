@@ -12,6 +12,16 @@ class UserModel {
 
   UserModel({required this.id, required this.uid, required this.email, this.name, this.avatar});
 
+  UserModel copyWith({String? id, String? uid, String? email, String? name, String? avatar}) {
+    return UserModel(
+      id: id ?? this.id,
+      uid: uid ?? this.uid,
+      email: email ?? this.email,
+      name: name ?? this.name,
+      avatar: avatar ?? this.avatar,
+    );
+  }
+
   /* This factory constructor help us to create a new instance for convert
     the extern data in a User model*/
 

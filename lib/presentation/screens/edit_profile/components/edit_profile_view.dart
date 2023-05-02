@@ -26,7 +26,6 @@ class EditProfileView extends StatelessWidget {
                 child: Column(
                   children: [
                     Container(
-                      //height: MediaQuery.of(context).size.height * 0.3,
                       alignment: Alignment.center,
                       padding: const EdgeInsets.only(bottom: 25),
                       height: 160,
@@ -46,22 +45,17 @@ class EditProfileView extends StatelessWidget {
                                 );
                               },
                             ),
-                            const CircleAvatar(
-                              radius: 15,
-                              child: Icon(Icons.edit),
-                            )
+                            const CircleAvatar(radius: 15, child: Icon(Icons.edit))
                           ],
                         ),
                         onTap: () async {
                           await showDialog(
                             context: context,
-                            builder: (_) {
-                              return const ImageOptionsDialog();
-                            },
-                          ).then((value) {
-                            if (value != null) {
+                            builder: (_) => const ImageOptionsDialog(),
+                          ).then((source) {
+                            if (source != null) {
                               // ignore: use_build_context_synchronously
-                              context.read<EditProfileBloc>().add(OnImageSourceSelected(value!));
+                              context.read<EditProfileBloc>().add(OnImageSourceSelected(source!));
                             }
                           });
                         },

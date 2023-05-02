@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo_firestore/data/firebase/auth/firebase_auth_repository.dart';
 import 'package:todo_firestore/data/firebase/firestore/firebase_firestore_repository.dart';
+import 'package:todo_firestore/data/firebase/models/user_model.dart';
 import 'package:todo_firestore/data/firebase/storage/storage_repository.dart';
 import 'package:todo_firestore/data/managers/picker_image_manager.dart';
 import 'package:todo_firestore/presentation/blocs/authentication/authentication_bloc.dart';
@@ -13,6 +14,7 @@ import 'package:todo_firestore/presentation/screens/chat/use_cases/update_messag
 import 'package:todo_firestore/presentation/screens/chat/use_cases/send_message_use_case.dart';
 import 'package:todo_firestore/presentation/screens/chat/use_cases/sign_out_use_case.dart';
 import 'package:todo_firestore/presentation/screens/chat/view_models/chat_bloc.dart';
+import 'package:todo_firestore/presentation/screens/edit_profile/use_cases/update_user_use_case.dart';
 import 'package:todo_firestore/presentation/screens/edit_profile/use_cases/upload_file_use_case.dart';
 import 'package:todo_firestore/presentation/screens/edit_profile/view_models/bloc/edit_profile_bloc.dart';
 import 'package:todo_firestore/presentation/screens/sign_in/use_cases/sign_in_use_case.dart';
@@ -48,6 +50,7 @@ Future<void> setupDependencies() async {
   getIt.registerFactory<UploadFileUseCase>(() => UploadFileUseCase(getIt<StorageRepository>()));
   getIt.registerFactory<CreateUserUseCase>(() => CreateUserUseCase(getIt<FirebaseFirestoreRepository>()));
   getIt.registerFactory<GetCurrentUserUseCase>(() => GetCurrentUserUseCase(getIt<FirebaseFirestoreRepository>()));
+  getIt.registerFactory<UpdateUserUseCase>(() => UpdateUserUseCase(getIt<FirebaseFirestoreRepository>()));
 
   // Blocs
   getIt.registerFactory<AuthenticationBloc>(
@@ -62,8 +65,10 @@ Future<void> setupDependencies() async {
         getIt<DeleteMessageUseCase>(),
         getIt<UpdateMessageUseCase>(),
       ));
-  getIt.registerFactory<EditProfileBloc>(() => EditProfileBloc(
+  getIt.registerFactoryParam<EditProfileBloc, UserModel, void>((currentUser, _) => EditProfileBloc(
         getIt<PickerImageManager>(),
         getIt<UploadFileUseCase>(),
+        getIt<UpdateUserUseCase>(),
+        currentUser,
       ));
 }

@@ -8,6 +8,7 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.read<AuthenticationBloc>().state.user;
     return Drawer(
       child: Column(
         children: [
@@ -18,9 +19,12 @@ class AppDrawer extends StatelessWidget {
             height: 160,
             color: Colors.blue,
             child: ListTile(
-              leading: const CircleAvatar(radius: 27),
-              title: Text(context.read<AuthenticationBloc>().state.user?.email ?? ''),
-              subtitle: Text(context.read<AuthenticationBloc>().state.user?.name ?? ''),
+              leading: CircleAvatar(
+                radius: 27,
+                backgroundImage: user?.avatar != null ? NetworkImage(user!.avatar!) : null,
+              ),
+              title: Text(user?.email ?? ''),
+              subtitle: Text(user?.name ?? ''),
             ),
           ),
           Expanded(

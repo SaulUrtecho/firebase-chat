@@ -41,6 +41,13 @@ class FirebaseFirestoreRepository {
         );
   }
 
+  Future<Either<ServerFailure, void>> updateUser(UserModel user) async {
+    return _store.collection(usersCollection).doc(user.id).update(user.toJson()).then(
+          (doc) => const Right(null),
+          onError: (e) => Left(ServerFailure()),
+        );
+  }
+
   Stream<List<MessageModel>> watchMessages() {
     return _store
         .collection(messagesCollection)
