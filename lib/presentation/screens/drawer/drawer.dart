@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_firestore/presentation/blocs/authentication/authentication_bloc.dart';
+import 'package:todo_firestore/presentation/design/profile_avatar.dart';
 import 'package:todo_firestore/presentation/screens/chat/view_models/chat_bloc.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -8,23 +9,22 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.read<AuthenticationBloc>().state.user;
+    final currentUser = context.read<AuthenticationBloc>().state.user;
     return Drawer(
       child: Column(
         children: [
           Container(
-            //height: MediaQuery.of(context).size.height * 0.3,
             alignment: Alignment.bottomCenter,
             padding: const EdgeInsets.only(bottom: 25),
             height: 160,
             color: Colors.blue,
             child: ListTile(
-              leading: CircleAvatar(
+              leading: ProfileAvatar(
                 radius: 27,
-                backgroundImage: user?.avatar != null ? NetworkImage(user!.avatar!) : null,
+                url: currentUser?.avatar,
               ),
-              title: Text(user?.email ?? ''),
-              subtitle: Text(user?.name ?? ''),
+              title: Text(currentUser?.email ?? ''),
+              subtitle: Text(currentUser?.name ?? ''),
             ),
           ),
           Expanded(
@@ -36,7 +36,6 @@ class AppDrawer extends StatelessWidget {
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.pushNamed(context, 'edit_profile');
-                    //todo
                   },
                 ),
                 const Spacer(),

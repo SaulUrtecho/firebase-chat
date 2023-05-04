@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_firestore/presentation/architecture/page_state.dart';
+import 'package:todo_firestore/presentation/design/profile_avatar.dart';
 import 'package:todo_firestore/presentation/screens/edit_profile/components/image_options_dialog.dart';
 import 'package:todo_firestore/presentation/screens/edit_profile/view_models/bloc/edit_profile_bloc.dart';
 
@@ -36,12 +37,10 @@ class EditProfileView extends StatelessWidget {
                           children: [
                             BlocBuilder<EditProfileBloc, EditProfileState>(
                               builder: (context, state) {
-                                return CircleAvatar(
-                                  backgroundImage:
-                                      state.avatarFile != null ? FileImage(File(state.avatarFile!.path)) : null,
+                                return ProfileAvatar(
+                                  file: state.avatarFile != null ? File(state.avatarFile!.path) : null,
+                                  url: state.currentUser.avatar,
                                   radius: 55,
-                                  backgroundColor: Colors.blueGrey,
-                                  child: state.avatarFile != null ? null : const Icon(Icons.person, size: 72),
                                 );
                               },
                             ),

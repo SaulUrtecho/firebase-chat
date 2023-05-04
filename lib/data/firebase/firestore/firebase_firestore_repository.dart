@@ -5,6 +5,7 @@ import 'package:todo_firestore/data/firebase/firestore/firestore_constants.dart'
 import 'package:todo_firestore/data/firebase/models/message_model.dart';
 import 'package:todo_firestore/data/firebase/models/user_model.dart';
 import 'package:todo_firestore/presentation/architecture/failures.dart';
+import 'package:rxdart/rxdart.dart';
 
 /// This is Storage repository implementation
 /// This repository has a dependency from FirebaseFirestore
@@ -12,6 +13,7 @@ class FirebaseFirestoreRepository {
   // This dependency will be injected by di(GetIt)
   final FirebaseFirestore _store;
   final FirebaseAuthRepository _auth;
+  final userStream = BehaviorSubject<UserModel>();
 
   FirebaseFirestoreRepository(this._store, this._auth);
 
@@ -43,9 +45,12 @@ class FirebaseFirestoreRepository {
 
   Future<Either<ServerFailure, void>> updateUser(UserModel user) async {
     return _store.collection(usersCollection).doc(user.id).update(user.toJson()).then(
-          (doc) => const Right(null),
-          onError: (e) => Left(ServerFailure()),
-        );
+      (doc) {
+        userStream.add(user);
+        return const Right(null);
+      },
+      onError: (e) => Left(ServerFailure()),
+    );
   }
 
   Stream<List<MessageModel>> watchMessages() {

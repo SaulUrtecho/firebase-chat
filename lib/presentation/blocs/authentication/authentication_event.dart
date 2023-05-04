@@ -27,3 +27,12 @@ class OnLogOut extends AuthenticationEvent {
   @override
   String toString() => 'OnLogOut';
 }
+
+class UserUpdated extends AuthenticationEvent {
+  final UserModel user;
+
+  const UserUpdated(this.user);
+
+  @override
+  String toString() => 'UserUpdated';
+}

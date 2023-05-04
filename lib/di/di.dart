@@ -53,8 +53,11 @@ Future<void> setupDependencies() async {
   getIt.registerFactory<UpdateUserUseCase>(() => UpdateUserUseCase(getIt<FirebaseFirestoreRepository>()));
 
   // Blocs
-  getIt.registerFactory<AuthenticationBloc>(
-      () => AuthenticationBloc(getIt<FirebaseAuthRepository>(), getIt<GetCurrentUserUseCase>()));
+  getIt.registerFactory<AuthenticationBloc>(() => AuthenticationBloc(
+        getIt<FirebaseAuthRepository>(),
+        getIt<GetCurrentUserUseCase>(),
+        getIt<FirebaseFirestoreRepository>(),
+      ));
   getIt.registerFactory<SignUpBloc>(() => SignUpBloc(getIt<SignUpUseCase>(), getIt<CreateUserUseCase>()));
   getIt.registerFactory<SignInBloc>(() => SignInBloc(getIt<SignInUseCase>()));
   getIt.registerFactory<ChatBloc>(() => ChatBloc(
