@@ -6,6 +6,7 @@ import 'package:todo_firestore/data/firebase/auth/firebase_auth_repository.dart'
 import 'package:todo_firestore/data/firebase/firestore/firebase_firestore_repository.dart';
 import 'package:todo_firestore/data/firebase/models/user_model.dart';
 import 'package:todo_firestore/data/firebase/storage/storage_repository.dart';
+import 'package:todo_firestore/data/managers/messenger_manager.dart';
 import 'package:todo_firestore/data/managers/picker_image_manager.dart';
 import 'package:todo_firestore/presentation/blocs/authentication/authentication_bloc.dart';
 import 'package:todo_firestore/presentation/blocs/authentication/use_cases/get_current_user_use_case.dart';
@@ -33,6 +34,7 @@ Future<void> setupDependencies() async {
 
   // Managers
   getIt.registerFactory<PickerImageManager>(() => PickerImageManager());
+  getIt.registerSingleton<MessengerManager>(MessengerManager());
 
   // Repositories
   getIt.registerLazySingleton<FirebaseAuthRepository>(() => FirebaseAuthRepository(getIt<FirebaseAuth>()));
