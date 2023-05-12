@@ -10,6 +10,7 @@ import 'package:todo_firestore/data/managers/messenger_manager.dart';
 import 'package:todo_firestore/data/managers/picker_image_manager.dart';
 import 'package:todo_firestore/presentation/blocs/authentication/authentication_bloc.dart';
 import 'package:todo_firestore/presentation/blocs/authentication/use_cases/get_current_user_use_case.dart';
+import 'package:todo_firestore/presentation/blocs/messenger/messenger_bloc.dart';
 import 'package:todo_firestore/presentation/screens/chat/use_cases/delete_message_use_case.dart';
 import 'package:todo_firestore/presentation/screens/chat/use_cases/update_message_use_case.dart';
 import 'package:todo_firestore/presentation/screens/chat/use_cases/send_message_use_case.dart';
@@ -60,6 +61,7 @@ Future<void> setupDependencies() async {
         getIt<GetCurrentUserUseCase>(),
         getIt<FirebaseFirestoreRepository>(),
       ));
+  getIt.registerFactory<MessengerBloc>(() => MessengerBloc(getIt<MessengerManager>()));
   getIt.registerFactory<SignUpBloc>(() => SignUpBloc(getIt<SignUpUseCase>(), getIt<CreateUserUseCase>()));
   getIt.registerFactory<SignInBloc>(() => SignInBloc(getIt<SignInUseCase>()));
   getIt.registerFactory<ChatBloc>(() => ChatBloc(
@@ -75,5 +77,6 @@ Future<void> setupDependencies() async {
         getIt<UploadFileUseCase>(),
         getIt<UpdateUserUseCase>(),
         currentUser,
+        getIt<MessengerManager>(),
       ));
 }

@@ -2,6 +2,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:todo_firestore/presentation/design/snackbar/snackbar_types.dart';
 
 class MessengerManager {
+  // Stream which receive an specific kind of message
   final messages = PublishSubject<AppMessage>();
 
   void showSnackSuccess(String title) {
@@ -17,6 +18,7 @@ class MessengerManager {
   }
 }
 
+// DTO for MessengerManager
 class AppMessage {
   final String title;
   final SnackbarType type;
