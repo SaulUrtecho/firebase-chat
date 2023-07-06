@@ -26,6 +26,7 @@ class App extends StatelessWidget {
           context.read<MessengerBloc>().add(const ClearMessage());
         },
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           scaffoldMessengerKey: scaffoldKey,
           navigatorKey: navigatorKey,
           onGenerateRoute: onGenerateRoute,
